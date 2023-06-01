@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  pharmacy-redis:
+    container_name: pharmacy-redis
+    build:
+      dockerfile: Dockerfile
+      context: ./redis
+    image: 4study/pharmacy-redis
+    ports:
+      - "6379:6379"
+  pharmacy-db:
+    container_name: pharmacy-db
+    build:
+      dockerfile: Dockerfile
+      context: ./database
+    image: 4study/pharmacy-db
+    environment:
+      - MARIADB_DATABASE=pharmacy
+      - MARIADB_ROOT_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+    volumes:
+      - ./database/config:/etc/mysql/conf.d
+    ports:
+      - "3306:3306"
