@@ -12,6 +12,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class DocumentDto {
 
+    @JsonProperty("place_name")
+    private String placeName;
+
     @JsonProperty("address_name")
     private String addressName;
     @JsonProperty("x")
@@ -20,4 +23,6 @@ public class DocumentDto {
     @JsonProperty("y")
     private double latitude;
 
+    @JsonProperty("distance")
+    private double distance;
 }

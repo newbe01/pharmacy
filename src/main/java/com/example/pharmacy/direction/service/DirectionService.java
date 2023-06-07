@@ -1,6 +1,7 @@
 package com.example.pharmacy.direction.service;
 
 import com.example.pharmacy.api.dto.DocumentDto;
+import com.example.pharmacy.api.service.KakaoCategorySearchService;
 import com.example.pharmacy.direction.entity.Direction;
 import com.example.pharmacy.direction.repository.DirectionRepository;
 import com.example.pharmacy.pharmacy.service.PharmacySearchService;
@@ -25,6 +26,7 @@ public class DirectionService {
     private static final double RADIUS_KM = 10.0;
     private final PharmacySearchService pharmacySearchService;
     private final DirectionRepository directionRepository;
+    private final KakaoCategorySearchService kakaoCategorySearchService;
 
     @Transactional
     public List<Direction> saveAll(List<Direction> directionList) {
@@ -62,6 +64,30 @@ public class DirectionService {
                 .limit(MAX_SEARCH_COUNT)
                 .collect(Collectors.toList());
 
+    }
+
+    // pharmacy search by categor kakao api
+    public List<Direction> buildDirectionListByCategoryApi(DocumentDto documentDto) {
+        if(Objects.isNull(documentDto)) return Collections.emptyList();
+
+        return kakaoCategorySearchService
+                .requestPharmacyCategorySearch(documentDto.getLatitude(), documentDto.getLongitude(), RADIUS_KM)
+                .getDocumentList()
+                .stream()
+                .map(resultDocumentDto ->
+                        Direction.builder()
+                                .inputAddress(documentDto.getAddressName())
+                                .inputLatitude(documentDto.getLatitude())
+                                .inputLongitude(documentDto.getLongitude())
+                                .targetPharmacyName(resultDocumentDto.getPlaceName())
+                                .targetAddress(resultDocumentDto.getAddressName())
+                                .targetLatitude(resultDocumentDto.getLatitude())
+                                .targetLongitude(resultDocumentDto.getLongitude())
+                                .distance(resultDocumentDto.getDistance() * 0.001)
+                                .build()
+                )
+                .limit(MAX_SEARCH_COUNT)
+                .collect(Collectors.toList());
     }
 
     // Haversine formula
