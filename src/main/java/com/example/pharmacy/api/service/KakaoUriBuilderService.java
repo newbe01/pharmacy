@@ -19,8 +19,8 @@ public class KakaoUriBuilderService {
         UriComponentsBuilder uriBuilder = UriComponentsBuilder.fromHttpUrl(KAKAO_LOCAL_SEARCH_ADDRESS_URL);
         uriBuilder.queryParam("query", address);
 
-        URI uri = uriBuilder.build().encode().toUri();
-        log.info("[KakaoUriBuilderService] address : {} , uri: {} ", address, uri);
+        URI uri = uriBuilder.build().encode().toUri(); // encode default utf-8
+        log.info("[KakaoAddressSearchService buildUriByAddressSearch] address: {}, uri: {}", address, uri);
 
         return uri;
     }
@@ -33,12 +33,12 @@ public class KakaoUriBuilderService {
         uriBuilder.queryParam("category_group_code", category);
         uriBuilder.queryParam("x", longitude);
         uriBuilder.queryParam("y", latitude);
-        uriBuilder.queryParam("radius", radius);
-        uriBuilder.queryParam("sort", "distance");
+        uriBuilder.queryParam("radius", meterRadius);
+        uriBuilder.queryParam("sort","distance");
 
         URI uri = uriBuilder.build().encode().toUri();
 
-        log.info("[KakaoAddressSearchService buildUriByCategorySearch] uri : {}", uri);
+        log.info("[KakaoAddressSearchService buildUriByCategorySearch] uri: {} ", uri);
 
         return uri;
     }
