@@ -21,10 +21,11 @@ import java.net.URI;
 @RequiredArgsConstructor
 public class KakaoAddressSearchService {
 
-    private final RestTemplate restTemplate;
     private final KakaoUriBuilderService kakaoUriBuilderService;
 
-    @Value("${KAKAO_REST_API_KEY")
+    private final RestTemplate restTemplate;
+
+    @Value("${KAKAO_REST_API_KEY}")
     private String kakaoRestApiKey;
 
     @Retryable(
@@ -39,16 +40,15 @@ public class KakaoAddressSearchService {
         URI uri = kakaoUriBuilderService.buildUriByAddressSearch(address);
 
         HttpHeaders headers = new HttpHeaders();
-        headers.set(HttpHeaders.AUTHORIZATION, "KakaoAK " +kakaoRestApiKey);
+        headers.set(HttpHeaders.AUTHORIZATION, "KakaoAK " + kakaoRestApiKey);
         HttpEntity httpEntity = new HttpEntity<>(headers);
 
-        // kakao api 호출
         return restTemplate.exchange(uri, HttpMethod.GET, httpEntity, KakaoApiResponseDto.class).getBody();
     }
 
     @Recover
     public KakaoApiResponseDto recover(RuntimeException e, String address) {
-        log.error("All the retries failed. address: {}, error: {}", address, e.getMessage());
+        log.error("All the retries failed. address: {}, error : {}", address, e.getMessage());
         return null;
     }
 

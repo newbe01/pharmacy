@@ -49,7 +49,8 @@ public class PharmacyRecommendationService {
         return OutputDto.builder()
                 .pharmacyName(direction.getTargetPharmacyName())
                 .pharmacyAddress(direction.getTargetAddress())
-                .directionUrl("todo") //TODO: 약국주소 채워넣기
+                .directionUrl("todo") // todo
+                .roadViewUrl("todo")
                 .distance(String.format("%.2f km", direction.getDistance()))
                 .build();
     }
