@@ -62,3 +62,11 @@ tasks.named('test') {
 bootJar {
     archiveFileName = 'app.jar'
 }
+
+processTestResources {
+    boolean hasProperty = project.hasProperty("KAKAO_REST_API_KEY")
+    System.out.println("Set kakao rest api key: $hasProperty")
+    filesMatching('**/application.yml') {
+        expand(project.properties)
+    }
+}
