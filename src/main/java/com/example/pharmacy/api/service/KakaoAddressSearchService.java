@@ -25,7 +25,7 @@ public class KakaoAddressSearchService {
 
     private final RestTemplate restTemplate;
 
-    @Value("${KAKAO_REST_API_KEY}")
+    @Value("${kakao.rest.api.key}")
     private String kakaoRestApiKey;
 
     @Retryable(
