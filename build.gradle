@@ -33,6 +33,9 @@ dependencies {
     testImplementation('org.spockframework:spock-core:2.1-groovy-3.0')
     testImplementation('org.spockframework:spock-spring:2.1-groovy-3.0')
 
+    // redis
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+
     // https://github.com/seruco/base62
     implementation 'io.seruco.encoding:base62:0.1.3'
 
